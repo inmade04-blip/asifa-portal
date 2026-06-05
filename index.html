@@ -111,9 +111,10 @@
 <div id="results" style="margin-top:20px;"></div>
 <script>
 async function searchFlight() {
-  const from = document.getElementById('from').value;
-  const to = document.getElementById('to').value;
-  const date = document.getElementById('date').value;
+  const from = document.getElementById('from').value.toUpperCase();
+  const to = document.getElementById('to').value.toUpperCase();
+  const dateInput = document.getElementById('date').value;
+const date = new Date(dateInput).toISOString().split('T')[0];
   document.getElementById('results').innerHTML = 'Searching...';
   const res = await fetch(`/api/flight-search?origin=${from}&destination=${to}&depart_date=${date}`);
   const data = await res.json();
