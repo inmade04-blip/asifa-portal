@@ -116,9 +116,29 @@ async function searchFlight() {
   const dateInput = document.getElementById('date').value;
 const date = new Date(dateInput).toISOString().split('T')[0];
   document.getElementById('results').innerHTML = 'Searching...';
-  const res = await fetch(`/api/flights?origin=${from}&destination=${to}&depart_date=${date}`);
+  // 119 নম্বর লাইন ডিলিট করে এটা বসাও
+  const token = "54b3ad1ea9c7ad579d122ccadd3f241b"; // এখানে তোমার টোকেন
+  const res = await fetch(`/.netlify/functions/flights?origin=${from}&destination=${to}&date=${date}`); // ✅ এটা চলবে
+  
+  const res = await fetch(url);
   const data = await res.json();
+  console.log("API Response:", data); // ডেটা কী আসছে চেক করার জন্য
+  
   let html = '<h4>Results:</h4>';
+  if(data.success && data.data && data.data.length > 0) {
+    data.data.forEach(f => {
+      html += `<div style="border:1px solid #ccc; padding:10px; margin:5px; border-radius:5px;">
+        <strong>${f.airline} ${f.flight_number}</strong><br>
+        ${f.origin} → ${f.destination}<br>
+        Departure: ${f.departure_at}<br>
+        <strong style="font-size:18px; color:#0d47a1;">₹${f.value}</strong> | 
+        <a href="https://www.aviasales.com${f.link}" target="_blank" style="background:#0d47a1; color:white; padding:5px 10px; text-decoration:none; border-radius:3px;">Book Now</a>
+      </div>`;
+    });
+  } else { 
+    html += 'No flights found'; 
+  }
+  document.getElementById('results').innerHTML = html;
   if(data.data) {
     for(let key in data.data) {
       const f = data.data[key];
@@ -210,7 +230,7 @@ const firebaseConfig = {
 </script>
 <script> 
 // Flight API Setup
-const API_URL = "/api/flights";
+const API_URL = "/.netlify/functions/flights";
 
 // Global করে দিলাম যাতে onclick কাজ করে
 window.openService = async function(serviceName) {
@@ -256,11 +276,9 @@ window.openService = async function(serviceName) {
         }
     }
 }
-
-<script>
-  function adminLogin() {
+  window.adminLogin = function(){
     const pass = prompt("Enter Admin Password:");
-    if(pass === "Admin@2026") {
+    if(pass === "Hazira@2000") {
       window.open('admin.html', '_blank');
     } else if(pass) {
       alert("Wrong Password!");
