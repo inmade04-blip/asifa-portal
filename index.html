@@ -116,7 +116,7 @@ async function searchFlight() {
   const dateInput = document.getElementById('date').value;
 const date = new Date(dateInput).toISOString().split('T')[0];
   document.getElementById('results').innerHTML = 'Searching...';
-  const res = await fetch(`/api/flight-search?origin=${from}&destination=${to}&depart_date=${date}`);
+  const res = await fetch(`/api/flights?origin=${from}&destination=${to}&depart_date=${date}`);
   const data = await res.json();
   let html = '<h4>Results:</h4>';
   if(data.data) {
