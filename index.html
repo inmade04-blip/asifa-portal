@@ -122,7 +122,13 @@ const date = new Date(dateInput).toISOString().split('T')[0];
   if(data.data) {
     for(let key in data.data) {
       const f = data.data[key];
-      html += `<div style="border:1px solid #ccc; padding:10px; margin:5px;">₹${f.price} | <a href="https://www.aviasales.com${f.link}" target="_blank">Book Now</a></div>`;
+      html += `<div style="border:1px solid #ccc; padding:10px; margin:5px; border-radius:5px;">
+           <strong>${f.airline} ${f.flight_number}</strong><br>
+           ${f.departure} → ${f.arrival}<br>
+           Duration: ${f.duration}<br>
+           <strong style="font-size:18px; color:#0d47a1;">₹${f.price.amount}</strong> | 
+           <a href="#" style="background:#0d47a1; color:white; padding:5px 10px; text-decoration:none; border-radius:3px;">Book Now</a>
+         </div>`;
     }
   } else { html += 'No flights found'; }
   document.getElementById('results').innerHTML = html;
