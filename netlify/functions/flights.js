@@ -1,40 +1,27 @@
-exports.handler = async (event, context) => {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'
+exports.handler = async (event) => {
+  const { origin, destination, depart_date } = event.queryStringParameters || {};
+  
+  if (!origin || !destination || !depart_date) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: "Missing parameters" })
+    };
+  }
+
+  // আপাতত Demo Data পাঠাচ্ছি
+  const demoData = {
+    data: [
+      {
+        id: "1",
+        itineraries: [{ duration: "PT3H30M", segments: [{ departure: { iataCode: origin, at: depart_date + "T10:00:00" }, arrival: { iataCode: destination, at: depart_date + "T13:30:00" }, carrierCode: "AI", number: "123" }] }],
+        price: { total: "5500", currency: "INR" }
+      }
+    ]
   };
 
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
-  }
-
-  const { origin, destination, depart_date } = event.queryStringParameters;
-  const API_KEY = process.env.TP_API_KEY;
-  
-  if (!API_KEY) {
-    return { 
-      statusCode: 500, 
-      headers,
-      body: JSON.stringify({ error: "API Key Missing" }) 
-    };
-  }
-
-  const url = `https://api.travelpayouts.com/aviasales/v3/prices_for_dates?origin=${origin}&destination=${destination}&departure_at=${depart_date}&currency=inr&token=${API_KEY}`;
-  
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify(data)
-    };
-  } catch (error) {
-    return { 
-      statusCode: 500, 
-      headers,
-      body: JSON.stringify({ error: error.message }) 
-    };
-  }
+  return {
+    statusCode: 200,
+    headers: { "Access-Control-Allow-Origin": "*" },
+    body: JSON.stringify(demoData)
+  };
 };
