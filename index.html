@@ -279,7 +279,6 @@ window.openService = async function(serviceName) {
   window.adminLogin = function(){
     const pass = prompt("Enter Admin Password:");
     if(pass === "Hazira@2000") {
-      localStorage.setItem('adminAuth','true'};
       window.open('admin.html', '_blank');
     } else if(pass) {
       alert("Wrong Password!");
