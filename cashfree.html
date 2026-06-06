@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cashfree Test</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+    .box { background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; }
+    button { background: #523AE4; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 5px; }
+    button:hover { background: #4329c9; }
+    #result { background: #1e1e1e; color: #00ff00; padding: 15px; border-radius: 5px; margin-top: 15px; white-space: pre-wrap; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Cashfree Recharge API Test</h2>
+    <p>এই টেস্টটা Netlify এ Deploy করার পর কাজ করবে। লোকালে হবে না।</p>
+    
+    <button onclick="getOperators()">1. Operator List চেক করো</button>
+    
+    <h3>Result:</h3>
+    <div id="result">এখানে রেজাল্ট দেখাবে...</div>
+  </div>
+
+  <script>
+    const resultDiv = document.getElementById('result');
+
+    async function getOperators() {
+      resultDiv.innerText = 'Loading...';
+      
+      try {
+        const res = await fetch('/.netlify/functions/cashfree-operators');
+        const data = await res.json();
+        resultDiv.innerText = JSON.stringify(data, null, 2);
+      } catch (error) {
+        resultDiv.innerText = 'Error: ' + error;
+      }
+    }
+  </script>
+</body>
+</html>
