@@ -117,7 +117,7 @@ async function searchFlight() {
 const date = new Date(dateInput).toISOString().split('T')[0];
   document.getElementById('results').innerHTML = 'Searching...';
   // 119 নম্বর লাইন ডিলিট করে এটা বসাও
-  const token = "54b3ad1ea9c7ad579d122ccadd3f241b"; // এখানে তোমার টোকেন
+  const token = ""// এখানে তোমার টোকেন
   const res = await fetch(`/.netlify/functions/flights?origin=${from}&destination=${to}&date=${date}`); // ✅ এটা চলবে
   
   const res = await fetch(url);
