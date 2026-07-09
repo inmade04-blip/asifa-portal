@@ -193,30 +193,48 @@ const firebaseConfig = {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  window.loadServices = async function(category = 'all') {
-    const serviceGrid = document.getElementById('serviceGrid');
-    serviceGrid.innerHTML = '<div style="text-align: center; grid-column: 1/-1; padding: 40px;"><i class="fas fa-spinner fa-spin" style="font-size: 40px; color: #FF6B35;"></i></div>';
-    
-    let q = category === 'all' 
-      ? query(collection(db, "services"), where("status", "==", "active"))
-      : query(collection(db, "services"), where("category", "==", category), where("status", "==", "active"));
-    
-    const querySnapshot = await getDocs(q);
-    let html = '';
+ window.loadServices = async function(category = 'all') {
+  const serviceGrid = document.getElementById('serviceGrid');
+  serviceGrid.innerHTML = '<div style="text-align: center; grid-column: 1/-1; padding: 40px;"><i class="fas fa-spinner fa-spin" style="font-size: 40px; color: #FF6B35;"></i></div>';
+
+  let q = category === 'all'
+   ? query(collection(db, "services"), where("status", "==", "active"))
+    : query(collection(db, "services"), where("category", "==", category), where("status", "==", "active"));
+
+  const querySnapshot = await getDocs(q);
+  let html = '';
+
+  if(querySnapshot.empty) {
+    html = '<div style="text-align: center; grid-column: 1/-1; padding: 40px; color: #666;">No services found. Admin will add soon.</div>';
+  } else {
+    querySnapshot.forEach((doc) => {
+      const s = doc.data();
+      // EKHANE CHANGE: onclick tule dilam
+      html += `<div class="service-card" data-link="${s.link || ''}">
+          <div class="icon"><i class="fas ${s.icon}"></i></div>
+          <h4>${s.name}</h4>
+          <p>${s.description}</p>
+          <p class="commission">Commission: ₹${s.commission}</p>
+        </div>`;
+    });
+  }
+  serviceGrid.innerHTML = html;
+
+  // EKHANE NOTUN CODE ADD KORO
+  document.querySelectorAll('.service-card').forEach(card => {
+    card.addEventListener('click', function(){
+      let link = this.getAttribute('data-link');
+      if(link && link !== ''){
+        window.open(link, '_blank');
+      } else {
+        alert('Login as Agent to use this service');
+      }
+    })
+  })
+}
     
     if(querySnapshot.empty) {
-      html = '<div style="text-align: center; grid-column: 1/-1; padding: 40px; color: #666;">No services found. Admin will add soon.</div>';
-    } else {
-      querySnapshot.forEach((doc) => {
-        const s = doc.data();
-        html += `<div class="service-card" onclick="alert('Login as Agent to use this service')">
-            <div class="icon"><i class="fas ${s.icon}"></i></div>
-            <h4>${s.name}</h4>
-            <p>${s.description}</p>
-            <p class="commission">Commission: ₹${s.commission}</p>
-          </div>`;
-      });
-    }
+      html = '<div style="text-align: center; grid-column: 1/-1; padding: 40px; color: #666;">No services found. Admin wil
     serviceGrid.innerHTML = html;
   }
 
