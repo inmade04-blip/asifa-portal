@@ -807,6 +807,7 @@ flightDetails = {
 
 </script>
 <script>
+<script>
 // Sob service er list
 let services = [
     {name: "VOTER CARD APPLY", link: "https://nvsp.in", earn: "Earn ₹1", icon: "🪪"},
@@ -817,19 +818,22 @@ let services = [
 function showDashboard() {
     document.getElementById("loginScreen").style.display = "none";
     document.getElementById("dashboardScreen").style.display = "block";
-    
+
     let serviceList = document.getElementById("serviceList");
+    serviceList.innerHTML = ""; // purono card clear kore debe
+    
     services.forEach(service => {
         serviceList.innerHTML += `
-        <div onclick="window.location.href='${service.link}'" 
-             style="background:#1e2a47; padding:20px; width:200px; border-radius:10px; cursor:pointer; text-align:center; color:white; border:1px solid #2e3f66;">
+        <div onclick="window.location.href='${service.link}'"
+             style="background:#1e2a47; padding:20px; width:200px; border-radius:10px; cursor:pointer; text-align:center; color:white; border:1px solid #2e3f66; margin:10px;">
             <div style="font-size:30px;">${service.icon}</div>
             <div style="font-weight:bold; margin-top:10px;">${service.name}</div>
             <div style="color:#00ff88; font-size:12px;">${service.earn}</div>
         </div>
         `;
     });
-}
+} // Eta miss chilo
+</script>
 
 // Tor loginAgent function er moddhe seshe showDashboard() call kore de
 // Example:
