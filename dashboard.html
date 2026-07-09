@@ -102,8 +102,16 @@ window.register = function(){
 window.login = function(){
   let email = document.getElementById("email").value;
   let password = document.getElementById("password").value;
+  
   signInWithEmailAndPassword(auth, email, password)
-  .catch((error) => { document.getElementById("msg").innerText = error.message; });
+  .then(() => { 
+    document.getElementById("msg").innerText = "Login Success!";
+    document.getElementById("msg").style.color = "green";
+  })
+  .catch((error) => { 
+    document.getElementById("msg").innerText = error.message;
+    document.getElementById("msg").style.color = "red";
+  });
 }
 
 window.logout = function(){ signOut(auth); }
