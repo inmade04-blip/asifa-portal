@@ -210,7 +210,9 @@ const firebaseConfig = {
     querySnapshot.forEach((doc) => {
       const s = doc.data();
       // EKHANE CHANGE: onclick tule dilam
-      html += `<div class="service-card" data-link="${s.link || ''}">
+     card.onclick = () => {
+    window.open('https://snpapnapan.com/portallogin/nsdlekycpan', '_blank');
+}
           <div class="icon"><i class="fas ${s.icon}"></i></div>
           <h4>${s.name}</h4>
           <p>${s.description}</p>
