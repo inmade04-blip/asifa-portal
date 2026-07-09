@@ -263,7 +263,16 @@
             </p>
         </div>
     </div>
+  <!-- Dashboard Screen -->
+<div class="dashboard-screen" id="dashboardScreen" style="display:none; padding:20px;">
+  
+  <h2 style="color:white; text-align:center;">My Services</h2>
+  
+  <div id="serviceList" style="display:flex; gap:15px; flex-wrap:wrap; justify-content:center;">
+    <!-- Card gulo ekhane automatic asbe -->
+  </div>
 
+</div>
     <!-- Dashboard Screen -->
     <div id="dashboardScreen" style="display: none;">
         <div class="header">
@@ -797,6 +806,38 @@ flightDetails = {
   }
 
 </script>
+<script>
+// Sob service er list
+let services = [
+    {name: "VOTER CARD APPLY", link: "https://nvsp.in", earn: "Earn ₹1", icon: "🪪"},
+    {name: "PAN CARD TEST", link: "https://snpapnapan.com/portallogin/nsdlekycpan", earn: "Earn ₹1", icon: "🪪"}
+];
 
+// Login successful hole dashboard dekhabe + card banabe
+function showDashboard() {
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("dashboardScreen").style.display = "block";
+    
+    let serviceList = document.getElementById("serviceList");
+    services.forEach(service => {
+        serviceList.innerHTML += `
+        <div onclick="window.location.href='${service.link}'" 
+             style="background:#1e2a47; padding:20px; width:200px; border-radius:10px; cursor:pointer; text-align:center; color:white; border:1px solid #2e3f66;">
+            <div style="font-size:30px;">${service.icon}</div>
+            <div style="font-weight:bold; margin-top:10px;">${service.name}</div>
+            <div style="color:#00ff88; font-size:12px;">${service.earn}</div>
+        </div>
+        `;
+    });
+}
+
+// Tor loginAgent function er moddhe seshe showDashboard() call kore de
+// Example:
+function loginAgent(event) {
+    event.preventDefault();
+    // ... tor login check er code ...
+    showDashboard(); // Eta add kor
+}
+</script>
 </body>
 </html>
