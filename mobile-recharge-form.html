@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mobile Recharge</title>
+<style>
+  body{background:#0a0a0a;color:white;font-family:Arial;padding:20px}
+  .box{background:#111827;padding:20px;border-radius:12px;max-width:400px;margin:auto}
+  input,select,button{width:95%;padding:12px;margin:10px 0;border-radius:8px;border:none}
+  input,select{background:#1e293b;color:white}
+  button{background:#00ff88;color:black;font-weight:bold;cursor:pointer}
+  button:disabled{opacity:0.5}
+</style>
+</head>
+<body>
+
+<div class="box">
+  <h2>📱 Mobile Recharge</h2>
+  <p>Balance: ₹<span id="balance">0</span></p>
+
+  <input type="number" id="mobile" placeholder="10 digit Mobile Number" maxlength="10">
+  <select id="operator">
+    <option value="">Operator Select Koro</option>
+    <option value="JIO">JIO</option>
+    <option value="AIRTEL">AIRTEL</option>
+    <option value="VI">VI</option>
+    <option value="BSNL">BSNL</option>
+  </select>
+  <input type="number" id="amount" placeholder="Recharge Amount">
+  <button id="payBtn" onclick="doRecharge()">Pay & Recharge</button>
+  <p id="msg"></p>
+</div>
+
+<script>
+window.onload = function() {
+  document.getElementById("balance").innerText = localStorage.getItem("balance") || "0";
+}
+
+async function doRecharge() {
+  let mobile = document.getElementById("mobile").value;
+  let operator = document.getElementById("operator").value;
+  let amount = document.getElementById("amount").value;
+  let balance = parseInt(localStorage.getItem("balance")) || 0;
+  let cost = 10; // Agent er theke 10 taka katbo
+  let btn = document.getElementById("payBtn");
+  let msg = document.getElementById("msg");
+
+  if(mobile.length != 10 || !operator || amount < 10){
+    alert("Sob thik kore bhoro");
+    return;
+  }
+  if(balance < cost){
+    alert("Balance kom ache! Age Recharge koro");
+    return;
+  }
+
+  // Balance theke kete nao
+  localStorage.setItem("balance", balance - cost);
+  document.getElementById("balance").innerText = balance - cost;
+  btn.disabled = true;
+  msg.innerText = "Processing...";
+
+  // 2. Netlify Function ke call koro
+  try {
+    let res = await fetch("/.netlify/functions/cashfree-recharge", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mobile: mobile,
+        amount: amount,
+        operator: operator
+      })
+    });
+
+    let data = await res.json();
+    
+    if(data.status == "SUCCESS" || data.paymentStatus == "SUCCESS") {
+      msg.innerText = "✅ Recharge Success! ID: " + data.referenceId;
+      // Success hole 2 taka profit add koro
+      let newBalance = parseInt(localStorage.getItem("balance")) + 2;
+      localStorage.setItem("balance", newBalance);
+    } else {
+      msg.innerText = "❌ Failed: " + (data.message || "Unknown Error");
+      // Fail hole taka ferot
+      let newBalance = parseInt(localStorage.getItem("balance")) + cost;
+      localStorage.setItem("balance", newBalance);
+    }
+  } catch(e) {
+    msg.innerText = "API Error. Taka ferot deoa holo";
+    let newBalance = parseInt(localStorage.getItem("balance")) + cost;
+    localStorage.setItem("balance", newBalance);
+  }
+  btn.disabled = false;
+}
+</script>
+
+</body>
+</html>
