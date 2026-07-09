@@ -67,6 +67,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyAG-JNoF4LjEphuLU9Yt1bCveo6w_thI1k",
   authDomain: "asifa-64da9.firebaseapp.com",
@@ -126,19 +127,19 @@ window.showTab = function(tabName){
 function loadServices() {
     let services = [
         
-        {name: "AADHAAR UPDATE", link: "https://uidai.gov.in", earn: "Earn ₹0", img: "https://cdn-icons-png.flaticon.com/512/3135/3135765.png"},
-        {name: "AADHAAR আপডেট", link: "https://myaadhaar.uidai.gov.in/", earn: "Earn ₹0", img: "https://cdn-icons-png.flaticon.com/512/3135/3135765.png"},
-        {name: "SNP PAN LOG IN", link: "https://snpapnapan.com/portallogin/nsdlekycpan", earn: "Earn ₹10", img: "https://cdn-icons-png.flaticon.com/512/2921/2921222.png"}, // ID Card Image
-        {name: "UTI PAN CARD ডাঊণলোড", link: "https://www.pan.utiitsl.com/reprint.html", earn: "Earn ₹10", img: "https://cdn-icons-png.flaticon.com/512/2921/2921222.png"}, // ID Card Image
-        {name: "UTI প্যান কার্ড চেক", link: "https://www.trackpan.utiitsl.com/PANONLINE/forms/TrackPan/trackApp", earn: "Earn ₹10", img: "https://cdn-icons-png.flaticon.com/512/2921/2921222.png"}, // ID Card Image
-        {name: "NSDL PAN CARD ডাঊণলোড", link: "https://onlineservices.proteantech.in/paam/ReprintEPan.html", earn: "Earn ₹10", img: "https://cdn-icons-png.flaticon.com/512/2921/2921222.png"}, // ID Card Image
-        {name: "NSDL PAN CARD চেক", link: "https://tin.tin.proteantech.in/pantan/StatusTrack.html", earn: "Earn ₹10", img: "https://cdn-icons-png.flaticon.com/512/2921/2921222.png"}, // ID Card Image
-        {name: "প্যান আঁধার লিংক", link: "https://www.incometax.gov.in/iec/foportal/", earn: "Earn ₹0", img: "https://cdn-icons-png.flaticon.com/512/2921/2921222.png"}, // ID Card Image
-        {name: "ভোটার কার্ড", link: "https://nvsp.in", earn: "Earn ₹0", img: "https://cdn-icons-png.flaticon.com/512/1077/1077114.png"},
-        {name: "মোবাইল টাকা মারুন", link: "#", earn: "Earn ₹2", img: "https://cdn-icons-png.flaticon.com/512/126/126509.png"},
-        {name: "ANNAPURNA", link: "https://socialregistry.wb.gov.in/citizen/#/", earn: "Earn ₹0", img: "https://cdn-icons-png.flaticon.com/512/1046/1046784.png"},
-        {name: "BILL PAYMENT", link: "#", earn: "Earn ₹3", img: "https://cdn-icons-png.flaticon.com/512/2331/2331961.png"}
-        {name: "বাংলার ভূমি ও কাজ", link: "https://banglarbhumi.gov.in/", earn: "Earn ₹10", img: "https://cdn-icons-png.flaticon.com/512/2921/2921222.png"}, // ID Card Image
+  {name: "AADHAAR UPDATE", link: "https://uidai.gov.in", earn: "Earn ₹0", img: "https://cdn-icons-png.flaticon.com/512/3135/3135765.png"},
+  {name: "AADHAAR আপডেট", link: "https://myaadhaar.uidai.gov.in/", earn: "Earn ₹0", img: "https://cdn-icons-png.flaticon.com/512/3135/3135765.png"},
+  {name: "SNP PAN LOG IN", link: "https://snpapnapan.com/portallogin/nsdlekycpan", earn: "Earn ₹10", img: "https://cdn-icons-png.flaticon.com/512/2921/2921222.png"}, // ID Card Image
+  {name: "UTI PAN CARD ডাঊণলোড", link: "https://www.pan.utiitsl.com/reprint.html", earn: "Earn ₹10", img: "https://cdn-icons-png.flaticon.com/512/2921/2921222.png"}, // ID Card Image
+  {name: "UTI প্যান কার্ড চেক", link: "https://www.trackpan.utiitsl.com/PANONLINE/forms/TrackPan/trackApp", earn: "Earn ₹10", img: "https://cdn-icons-png.flaticon.com/512/2921/2921222.png"}, // ID Card Image
+  {name: "NSDL PAN CARD ডাঊণলোড", link: "https://onlineservices.proteantech.in/paam/ReprintEPan.html", earn: "Earn ₹10", img: "https://cdn-icons-png.flaticon.com/512/2921/2921222.png"}, // ID Card Image
+  {name: "NSDL PAN CARD চেক", link: "https://tin.tin.proteantech.in/pantan/StatusTrack.html", earn: "Earn ₹10", img: "https://cdn-icons-png.flaticon.com/512/2921/2921222.png"}, // ID Card Image
+  {name: "প্যান আঁধার লিংক", link: "https://www.incometax.gov.in/iec/foportal/", earn: "Earn ₹0", img: "https://cdn-icons-png.flaticon.com/512/2921/2921222.png"}, // ID Card Image
+  {name: "ভোটার কার্ড", link: "https://nvsp.in", earn: "Earn ₹0", img: "https://cdn-icons-png.flaticon.com/512/1077/1077114.png"},
+  {name: "মোবাইল টাকা মারুন", link: "#", earn: "Earn ₹2", img: "https://cdn-icons-png.flaticon.com/512/126/126509.png"},
+  {name: "ANNAPURNA", link: "https://socialregistry.wb.gov.in/citizen/#/", earn: "Earn ₹0", img: "https://cdn-icons-png.flaticon.com/512/1046/1046784.png"},
+  {name: "BILL PAYMENT", link: "#", earn: "Earn ₹3", img: "https://cdn-icons-png.flaticon.com/512/2331/2331961.png"}
+   {name: "বাংলার ভূমি ও কাজ", link: "https://banglarbhumi.gov.in/", earn: "Earn ₹10", img: "https://cdn-icons-png.flaticon.com/512/2921/2921222.png"}, // ID Card Image
 
     ];
 
