@@ -221,16 +221,16 @@ const firebaseConfig = {
   serviceGrid.innerHTML = html;
 
   // EKHANE NOTUN CODE ADD KORO
-  document.querySelectorAll('.service-card').forEach(card => {
-    card.addEventListener('click', function(){
-      let link = this.getAttribute('data-link');
-      if(link && link !== ''){
-        window.open(link, '_blank');
-      } else {
-        alert('Login as Agent to use this service');
-      }
-    })
+ document.querySelectorAll('.service-card').forEach(card => {
+  card.addEventListener('click', function(){
+    let link = this.getAttribute('data-link');
+    if(link && link !== ''){
+      window.open(link, '_blank'); // Link thakle redirect
+    } else {
+      openServiceModal(this); // Link na thakle modal khulbe
+    }
   })
+})
 }
     
     if(querySnapshot.empty) {
