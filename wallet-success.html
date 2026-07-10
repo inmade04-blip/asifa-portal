@@ -1,0 +1,12 @@
+<script>
+let urlParams = new URLSearchParams(window.location.search);
+let orderId = urlParams.get('order_id');
+
+// Cashfree theke verify kore balance add korbe
+// Ekhon temporary vabe add kore dicchi
+let amount = localStorage.getItem("lastAmount") || 500;
+let old = parseInt(localStorage.getItem("balance")) || 0;
+localStorage.setItem("balance", old + parseInt(amount));
+alert("✅ ₹" + amount + " Wallet e add hoye geche!");
+window.location.href = "dashboard.html";
+</script>
