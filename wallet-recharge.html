@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wallet Recharge</title>
+<style>
+  body{background:#0a0a0a;color:white;font-family:Arial;padding:20px;text-align:center}
+  .box{background:#111827;padding:20px;border-radius:12px;max-width:400px;margin:auto;margin-top:50px}
+  input,button{width:95%;padding:14px;margin:10px 0;border-radius:8px;border:none;font-size:16px}
+  input{background:#1e293b;color:white}
+  button{background:#00ff88;color:black;font-weight:bold;cursor:pointer}
+  a{color:#00ff88;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>💰 Wallet Recharge</h2>
+  <h1>Balance: ₹<span id="balance">0</span></h1>
+  <input type="number" id="addAmount" placeholder="Koto taka add korbe?">
+  <button onclick="createOrder()">UPI diye Pay Koro</button>
+  <p id="msg" style="font-size:12px;color:gray"></p>
+  <br>
+  <a href="dashboard.html">← Dashboard e phero</a>
+</div>
+
+<script>
+window.onload = function() {
+  document.getElementById("balance").innerText = localStorage.getItem("balance") || "0";
+}
+
+async function createOrder() {
+  let amount = document.getElementById("addAmount").value;
+  if(!amount || amount < 10){ alert("10 takar kom hobe na"); return; }
+  document.getElementById("msg").innerText = "Payment link toiri hocche...";
+  
+  let res = await fetch("/.netlify/functions/cashfree-wallet", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({amount: amount})
+  });
+  let data = await res.json();
+  if(data.payment_link) {
+    window.location.href = data.payment_link; // Cashfree er payment page e pathabe
+  } else {
+    alert("Error: " + data.message);
+  }
+}
+</script>
+</body>
+</html>
