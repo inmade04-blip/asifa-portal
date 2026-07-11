@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASIFA ENTERPRISE TOOLS V5</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body {background-image: url('asharul.jpg'); background-size: cover; background-attachment: fixed; background-color: #e0e0e0;}
+.card {background: rgba(255, 255, 255, 0.97); backdrop-filter: blur(5px);}
+  h1 {text-shadow: 2px 2px 6px rgba(0,0,0,0.7); color: white;}
+</style>
+</head>
+<body class="p-4">
+<div class="max-w-6xl mx-auto">
+  <h1 class="text-3xl font-bold text-center mb-6">ASIFA ENTERPRISE TOOLS V5</h1>
+
+  <!-- WATERMARK ON/OFF -->
+  <div class="card p-3 rounded-2xl shadow-lg mb-4 border-t-4 border-red-600">
+    <label class="flex items-center gap-2 text-sm font-bold">
+      <input type="checkbox" id="wmToggle" checked class="w-5 h-5">
+      WATERMARK ON RAKHBE? `ASIFA ENTERPRISE` <br>
+      <span class="text-xs text-red-600 font-normal">Sarkari kaj hole OFF kore din</span>
+    </label>
+  </div>
+
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+    <!-- 1. PHOTO COMPRESS -->
+    <div class="card p-4 rounded-2xl shadow-lg border-t-4 border-blue-600">
+      <h2 class="text-base font-bold text-blue-700 mb-2">1. PHOTO COMPRESS</h2>
+      <input type="file" id="photoInput" accept="image/*" class="w-full p-2 border rounded-xl text-xs mb-2">
+      <input type="number" id="targetKB" value="50" placeholder="Target KB" class="w-full p-2 border rounded-xl text-xs mb-2">
+      <button onclick="compressPhoto()" class="w-full bg-blue-600 text-white p-2 rounded-xl text-sm">Download</button>
+      <p id="photoResult" class="text-xs mt-1 text-green-600"></p>
+    </div>
+
+    <!-- 2. JPG TO PDF -->
+    <div class="card p-4 rounded-2xl shadow-lg border-t-4 border-red-600">
+      <h2 class="text-base font-bold text-red-700 mb-2">2. JPG TO PDF < 200KB</h2>
+      <input type="file" id="jpgInput" accept="image/*" multiple class="w-full p-2 border rounded-xl text-xs mb-2">
+      <button onclick="jpgToPdf()" class="w-full bg-red-600 text-white p-2 rounded-xl text-sm">Create PDF</button>
+      <p id="jpgResult" class="text-xs mt-1 text-green-600"></p>
+    </div>
+
+    <!-- 3. PDF MERGE -->
+    <div class="card p-4 rounded-2xl shadow-lg border-t-4 border-purple-600">
+      <h2 class="text-base font-bold text-purple-700 mb-2">3. PDF MERGE + COMPRESS</h2>
+      <input type="file" id="mergeInput" accept=".pdf" multiple class="w-full p-2 border rounded-xl text-xs mb-2">
+      <button onclick="mergePDF()" class="w-full bg-purple-600 text-white p-2 rounded-xl text-sm">Merge</button>
+      <p id="mergeResult" class="text-xs mt-1 text-green-600"></p>
+    </div>
+
+    <!-- 4. PDF COMPRESS -->
+    <div class="card p-4 rounded-2xl shadow-lg border-t-4 border-green-600">
+      <h2 class="text-base font-bold text-green-700 mb-2">4. PDF COMPRESS HEAVY</h2>
+      <input type="file" id="pdfCompInput" accept=".pdf" class="w-full p-2 border rounded-xl text-xs mb-2">
+      <input type="range" id="pdfCompQuality" min="10" max="100" value="25" class="w-full">
+      <span id="pcqVal" class="text-xs">25%</span>
+      <button onclick="compressPDF()" class="w-full bg-green-600 text-white p-2 rounded-xl mt-1 text-sm">Compress</button>
+      <p id="pdfCompResult" class="text-xs mt-1 text-green-600"></p>
+    </div>
+
+    <!-- 5. PASSPORT SIZE MANUAL -->
+    <div class="card p-4 rounded-2xl shadow-lg border-t-4 border-indigo-600">
+      <h2 class="text-base font-bold text-indigo-700 mb-2">5. PASSPORT SIZE MANUAL</h2>
+      <input type="file" id="passportInput" accept="image/*" class="w-full p-2 border rounded-xl text-xs mb-2">
+      <input type="number" id="copyCount" value="4" min="1" max="12" placeholder="Koto Copy" class="w-full p-2 border rounded-xl text-xs mb-1">
+      <div class="flex gap-1 mb-2">
+        <input type="number" id="ppW" value="35" placeholder="W mm" class="w-1/2 p-2 border rounded-xl text-xs">
+        <input type="number" id="ppH" value="45" placeholder="H mm" class="w-1/2 p-2 border rounded-xl text-xs">
+      </div>
+      <button onclick="makePassport()" class="w-full bg-indigo-600 text-white p-2 rounded-xl text-sm">A4 PDF Banaw</button>
+      <p id="ppResult" class="text-xs mt-1 text-green-600"></p>
+    </div>
+
+    <!-- 6. GUIDE -->
+    <div class="card p-4 rounded-2xl shadow-lg border-t-4 border-orange-600">
+      <h2 class="text-base font-bold text-orange-700 mb-2">6. IMPORTANT</h2>
+      <div class="bg-yellow-100 p-3 rounded-xl text-xs">
+        <b>Upore Check Box:</b><br>
+        ON = Dokan er kaj <br>
+        OFF = Sarkari kaj <br><br>
+        <b>Passport:</b> 35x45, 2x2, 50x50 sob hobe
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const { jsPDF } = window.jspdf;
+const { PDFDocument, rgb } = PDFLib;
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+const WATERMARK = "ASIFA ENTERPRISE";
+pdfCompQuality.oninput = e => pcqVal.innerText = e.target.value + '%';
+
+function isWMOn(){ return wmToggle.checked; } // Watermark on ache kina
+
+async function smartCompress(file, targetKB, maxW){
+  let q = 90; let data, blob;
+  do {
+    data = await compressImageFile(file, q, maxW);
+    blob = await fetch(data).then(r=>r.blob());
+    q = q - 5; maxW = maxW - 50;
+  } while(blob.size > targetKB*1024 && q > 5 && maxW > 200);
+  return {data, blob, q};
+}
+function compressImageFile(file, quality, maxWidth){
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let w = img.width; let h = img.height;
+        if(w > maxWidth){ h = h * (maxWidth / w); w = maxWidth; }
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        // PHOTO TE WATERMARK JODI ON THAKE
+        if(isWMOn()){
+          ctx.font = "bold 20px Arial";
+          ctx.fillStyle = "rgba(0,0,0,0.4)";
+          ctx.textAlign = "center";
+          ctx.fillText(WATERMARK, w/2, h-10);
+        }
+        resolve(canvas.toDataURL('image/jpeg', quality/100));
+      }
+      img.src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+  })
+}
+function downloadFile(blob, filename){
+  const link = document.createElement('a');
+  link.download = filename;
+  link.href = URL.createObjectURL(blob);
+  link.click();
+}
+
+// 1. PHOTO
+async function compressPhoto(){
+  const file = photoInput.files[0]; const target = parseInt(targetKB.value);
+  if(!file) return alert("Photo select korun");
+  const {data, blob} = await smartCompress(file, target, 1200);
+  downloadFile(blob, "ASIFA_photo.jpg");
+  photoResult.innerText = `Age: ${(file.size/1024).toFixed(1)}KB > Pore: ${(blob.size/1024).toFixed(1)}KB`;
+}
+
+// 2. JPG TO PDF
+async function jpgToPdf(){
+  const files = jpgInput.files; if(files.length == 0) return alert("JPG select korun");
+  const pdf = new jsPDF(); let total = 0;
+  for(let i=0; i<files.length; i++){
+    total += files[i].size;
+    const {data} = await smartCompress(files[i], 180, 1000);
+    if(i > 0) pdf.addPage();
+    pdf.addImage(data, 'JPEG', 10, 10, 190, 0);
+    if(isWMOn()){
+      pdf.setFontSize(10); pdf.setTextColor(150);
+      pdf.text(WATERMARK, 105, 287, {align: 'center'});
+    }
+  }
+  const blob = pdf.output('blob');
+  downloadFile(blob, "ASIFA_doc.pdf");
+  jpgResult.innerText = `Age: ${(total/1024/1024).toFixed(2)}MB > Pore: ${(blob.size/1024).toFixed(1)}KB`;
+}
+
+// 3. PDF MERGE
+async function mergePDF(){
+  const files = mergeInput.files; if(files.length < 2) return alert("2 ta PDF select korun");
+  const mergedPdf = await PDFDocument.create(); let totalSize = 0;
+  for(const file of files){
+    totalSize += file.size;
+    const pdfBytes = await file.arrayBuffer();
+    const pdf = await PDFDocument.load(pdfBytes);
+    const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+    pages.forEach(page => mergedPdf.addPage(page));
+  }
+  if(isWMOn()){
+    const pages = mergedPdf.getPages();
+    pages.forEach(page => {
+      const { width, height } = page.getSize();
+      page.drawText(WATERMARK, {x: width/2 - 50, y: 20, size: 10, color: rgb(0.5, 0.5, 0.5)});
+    });
+  }
+  const mergedBytes = await mergedPdf.save({useObjectStreams: true});
+  const blob = new Blob([mergedBytes], {type: 'application/pdf'});
+  downloadFile(blob, "ASIFA_merged.pdf");
+  mergeResult.innerText = `Age: ${(totalSize/1024/1024).toFixed(2)}MB > Pore: ${(blob.size/1024/1024).toFixed(2)}MB`;
+}
+
+// 4. PDF COMPRESS
+async function compressPDF(){
+  const file = pdfCompInput.files[0]; if(!file) return alert("PDF select korun");
+  const pdfBytes = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({data: pdfBytes}).promise;
+  const newPdf = new jsPDF(); const q = pdfCompQuality.value / 100;
+  for(let i=1; i<=pdf.numPages; i++){
+    const page = await pdf.getPage(i);
+    const scale = 1.0; const viewport = page.getViewport({scale});
+    const canvas = document.createElement('canvas');
+    canvas.width = viewport.width; canvas.height = viewport.height;
+    await page.render({canvasContext: canvas.getContext('2d'), viewport}).promise;
+    const imgData = canvas.toDataURL('image/jpeg', q);
+    if(i > 1) newPdf.addPage();
+    newPdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+    if(isWMOn()){
+      newPdf.setFontSize(10); newPdf.setTextColor(150);
+      newPdf.text(WATERMARK, 105, 287, {align: 'center'});
+    }
+  }
+  const blob = newPdf.output('blob');
+  downloadFile(blob, "ASIFA_compressed.pdf");
+  pdfCompResult.innerText = `Done! ${(file.size/1024/1024).toFixed(2)}MB > ${(blob.size/1024/1024).toFixed(2)}MB`;
+}
+
+// 5. PASSPORT
+async function makePassport(){
+  const file = passportInput.files[0];
+  const copies = parseInt(copyCount.value); const w = parseInt(ppW.value); const h = parseInt(ppH.value);
+  if(!file) return alert("Photo din");
+  const {data} = await smartCompress(file, 100, 800);
+  const pdf = new jsPDF('p', 'mm', 'a4');
+  let x = 15, y = 20;
+  for(let i=0; i<copies; i++){
+    pdf.addImage(data, 'JPEG', x, y, w, h);
+    x += w + 5; if(x + w > 210){ x = 15; y += h + 10; }
+  }
+  if(isWMOn()){
+    pdf.setFontSize(12); pdf.setTextColor(0);
+    pdf.text(WATERMARK + ` - ${copies} COPY`, 105, 280, {align: 'center'});
+  }
+  const blob = pdf.output('blob');
+  downloadFile(blob, `ASIFA_passport_${copies}copy.pdf`);
+  ppResult.innerText = `A4 te ${copies} Copy Ready. Size: ${w}x${h}mm`;
+}
+
+</script>
+</body>
+</html>
